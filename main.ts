@@ -198,7 +198,7 @@ controller.up.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.star_01, function (sprite, otherSprite) {
-    NIckle.sayText("Got the first star!")
+    NIckle.sayText("Got the first star!", 400, false)
     info.changeScoreBy(1)
     sprites.destroy(otherSprite)
 })
