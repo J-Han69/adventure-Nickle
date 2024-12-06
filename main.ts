@@ -1,3 +1,6 @@
+namespace SpriteKind {
+    export const star_01 = SpriteKind.create()
+}
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     NIckle,
@@ -194,6 +197,11 @@ controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
 controller.up.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.star_01, function (sprite, otherSprite) {
+    NIckle.sayText("Got the first star!")
+    info.changeScoreBy(1)
+    sprites.destroy(otherSprite)
+})
 controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
     NIckle,
@@ -292,9 +300,29 @@ let host = sprites.create(img`
     . . . f f 1 d 1 d 1 1 f f . . . 
     . . . . . f f f b b f . . . . . 
     `, SpriteKind.Player)
+let Star_1 = sprites.create(img`
+    . . . . . . . b b . . . . . . . 
+    . . . . . . b d d b . . . . . . 
+    . . . . . b d 5 5 d b . . . . . 
+    . . . . b b 5 5 5 5 b b . . . . 
+    . . . . b 5 5 5 5 5 5 b . . . . 
+    b b b b b 5 5 5 5 1 1 d b b b b 
+    b 5 5 5 5 5 5 5 5 1 1 1 5 5 5 b 
+    b d d 5 5 5 5 5 5 1 1 1 5 d d b 
+    . b d d 5 5 5 5 5 5 5 5 d d b . 
+    . . b b 5 5 5 5 5 5 5 5 b b . . 
+    . . c b 5 5 5 5 5 5 5 5 b c . . 
+    . . c 5 5 5 5 d d 5 5 5 5 c . . 
+    . . c 5 5 d b b b b d 5 5 c . . 
+    . . c 5 d b c c c c b d 5 c . . 
+    . . c c c c . . . . c c c c . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.star_01)
+tiles.placeOnTile(Star_1, tiles.getTileLocation(52, 11))
 tiles.placeOnTile(NIckle, tiles.getTileLocation(7, 2))
 tiles.placeOnTile(host, tiles.getTileLocation(3, 6))
 pause(2000)
 host.sayText(intro(game.ask("Do you want to play?"), game.askForString("Whats your name?")))
+info.setScore(0)
 controller.moveSprite(NIckle, 60, 60)
 scene.cameraFollowSprite(NIckle)
