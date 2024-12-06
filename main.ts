@@ -62,7 +62,7 @@ controller.down.onEvent(ControllerButtonEvent.Released, function () {
 })
 function intro (bool: boolean, name: string) {
     if (bool) {
-        return "Hello " + name + "," + " you have to collect all stars to escape."
+        return "Hello " + name + "," + " you have to collect all stars to win."
     } else {
         return "Your adventure ended before it even started, " + "" + name
     }
@@ -255,7 +255,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 let NIckle: Sprite = null
 scene.setBackgroundColor(11)
-tiles.setCurrentTilemap(tilemap`level1`)
+tiles.setCurrentTilemap(tilemap`level0`)
 NIckle = sprites.create(img`
     . . . . f f f f . . . . . 
     . . f f f f f f f f . . . 
@@ -295,7 +295,6 @@ let host = sprites.create(img`
 tiles.placeOnTile(NIckle, tiles.getTileLocation(7, 2))
 tiles.placeOnTile(host, tiles.getTileLocation(3, 6))
 pause(2000)
-let dialogue = intro(true, "abc")
-host.sayText(dialogue)
+host.sayText(intro(game.ask("Do you want to play?"), game.askForString("Whats your name?")))
 controller.moveSprite(NIckle, 60, 60)
 scene.cameraFollowSprite(NIckle)
