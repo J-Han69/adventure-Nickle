@@ -1,5 +1,6 @@
 namespace SpriteKind {
     export const star_01 = SpriteKind.create()
+    export const niki = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -128,6 +129,10 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     200,
     true
     )
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.niki, function (sprite, otherSprite) {
+    niki.sayText("Thank you for saving me!", 400, false)
+    game.gameOver(true)
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
@@ -261,6 +266,7 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+let niki: Sprite = null
 let NIckle: Sprite = null
 scene.setBackgroundColor(11)
 tiles.setCurrentTilemap(tilemap`level0`)
@@ -300,6 +306,24 @@ let host = sprites.create(img`
     . . . f f 1 d 1 d 1 1 f f . . . 
     . . . . . f f f b b f . . . . . 
     `, SpriteKind.Player)
+niki = sprites.create(img`
+    . . . . . . 5 . 5 . . . . . . . 
+    . . . . . f 5 5 5 f f . . . . . 
+    . . . . f e 5 2 5 e e f . . . . 
+    . . . f e e e e e e e e f . . . 
+    . . . f e e f f f f e e f . . . 
+    . . . f e f f d d f f e f . . . 
+    . . f e f d f d d f d f e f . . 
+    . . f e f d d d d d d f e f . . 
+    . . f e e f d d d d f e e f . . 
+    . f e e f 2 f f f f 2 f e e f . 
+    . . f f d 2 5 2 2 5 2 d f f . . 
+    . . f d d f 2 5 5 2 f d d f . . 
+    . . . f f 2 2 2 2 2 2 f f . . . 
+    . . . f 2 2 5 2 2 5 2 2 f . . . 
+    . . . f f f f f f f f f f . . . 
+    . . . . . f f . . f f . . . . . 
+    `, SpriteKind.niki)
 let Star_1 = sprites.create(img`
     . . . . . . . b b . . . . . . . 
     . . . . . . b d d b . . . . . . 
@@ -320,6 +344,7 @@ let Star_1 = sprites.create(img`
     `, SpriteKind.star_01)
 tiles.placeOnTile(Star_1, tiles.getTileLocation(52, 11))
 tiles.placeOnTile(NIckle, tiles.getTileLocation(7, 2))
+tiles.placeOnTile(niki, tiles.getTileLocation(18, 6))
 tiles.placeOnTile(host, tiles.getTileLocation(3, 6))
 pause(2000)
 host.sayText(intro(game.ask("Do you want to play?"), game.askForString("Whats your name?")))
