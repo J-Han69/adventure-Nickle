@@ -1,6 +1,9 @@
 namespace SpriteKind {
     export const star_01 = SpriteKind.create()
     export const niki = SpriteKind.create()
+    export const chest1 = SpriteKind.create()
+    export const chest2 = SpriteKind.create()
+    export const bad = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -131,14 +134,28 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.niki, function (sprite, otherSprite) {
-    niki.sayText("Thank you for saving me!", 400, false)
-    game.gameOver(true)
+    if (info.score() >= 4) {
+        niki.sayText("Thank you for saving me!", 400, false)
+        game.gameOver(true)
+    } else if (info.score() < 4) {
+        niki.sayText("To liberate me, you need to collect all 4 stars. ", 400, false)
+    } else {
+    	
+    }
 })
 controller.right.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
 })
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.bad, function (sprite, otherSprite) {
+    game.splash("You chose the wrong chest!")
+    pause(400)
+    sprite.sayText("Oh no!!!", 600, false)
+    music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
+    pause(400)
+    game.gameOver(false)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -203,7 +220,7 @@ controller.up.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.star_01, function (sprite, otherSprite) {
-    NIckle.sayText("Got the first star!", 400, false)
+    NIckle.sayText("Got a star!", 600, false)
     info.changeScoreBy(1)
     sprites.destroy(otherSprite)
 })
@@ -342,7 +359,102 @@ let Star_1 = sprites.create(img`
     . . c c c c . . . . c c c c . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.star_01)
+let star_2 = sprites.create(img`
+    . . . . . . . b b . . . . . . . 
+    . . . . . . b d d b . . . . . . 
+    . . . . . b d 5 5 d b . . . . . 
+    . . . . b b 5 5 5 5 b b . . . . 
+    . . . . b 5 5 5 5 5 5 b . . . . 
+    b b b b b 5 5 5 5 1 1 d b b b b 
+    b 5 5 5 5 5 5 5 5 1 1 1 5 5 5 b 
+    b d d 5 5 5 5 5 5 1 1 1 5 d d b 
+    . b d d 5 5 5 5 5 5 5 5 d d b . 
+    . . b b 5 5 5 5 5 5 5 5 b b . . 
+    . . c b 5 5 5 5 5 5 5 5 b c . . 
+    . . c 5 5 5 5 d d 5 5 5 5 c . . 
+    . . c 5 5 d b b b b d 5 5 c . . 
+    . . c 5 d b c c c c b d 5 c . . 
+    . . c c c c . . . . c c c c . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.star_01)
+let star_3 = sprites.create(img`
+    . . b b b b b b b b b b b b . . 
+    . b e 4 4 4 4 4 4 4 4 4 4 e b . 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e e 4 4 4 4 4 4 4 4 4 4 e e b 
+    b e e e e e e e e e e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b b b b b b b d d b b b b b b b 
+    c b b b b b b c c b b b b b b c 
+    c c c c c c b c c b c c c c c c 
+    b e e e e e c b b c e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b c e e e e e e e e e e e e c b 
+    b b b b b b b b b b b b b b b b 
+    . b b . . . . . . . . . . b b . 
+    `, SpriteKind.chest1)
+let star_4 = sprites.create(img`
+    . . b b b b b b b b b b b b . . 
+    . b e 4 4 4 4 4 4 4 4 4 4 e b . 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e e 4 4 4 4 4 4 4 4 4 4 e e b 
+    b e e e e e e e e e e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b b b b b b b d d b b b b b b b 
+    c b b b b b b c c b b b b b b c 
+    c c c c c c b c c b c c c c c c 
+    b e e e e e c b b c e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b c e e e e e e e e e e e e c b 
+    b b b b b b b b b b b b b b b b 
+    . b b . . . . . . . . . . b b . 
+    `, SpriteKind.chest2)
+let chest1 = sprites.create(img`
+    . . b b b b b b b b b b b b . . 
+    . b e 4 4 4 4 4 4 4 4 4 4 e b . 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e e 4 4 4 4 4 4 4 4 4 4 e e b 
+    b e e e e e e e e e e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b b b b b b b d d b b b b b b b 
+    c b b b b b b c c b b b b b b c 
+    c c c c c c b c c b c c c c c c 
+    b e e e e e c b b c e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b c e e e e e e e e e e e e c b 
+    b b b b b b b b b b b b b b b b 
+    . b b . . . . . . . . . . b b . 
+    `, SpriteKind.bad)
+let chest2 = sprites.create(img`
+    . . b b b b b b b b b b b b . . 
+    . b e 4 4 4 4 4 4 4 4 4 4 e b . 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
+    b e e 4 4 4 4 4 4 4 4 4 4 e e b 
+    b e e e e e e e e e e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b b b b b b b d d b b b b b b b 
+    c b b b b b b c c b b b b b b c 
+    c c c c c c b c c b c c c c c c 
+    b e e e e e c b b c e e e e e b 
+    b e e e e e e e e e e e e e e b 
+    b c e e e e e e e e e e e e c b 
+    b b b b b b b b b b b b b b b b 
+    . b b . . . . . . . . . . b b . 
+    `, SpriteKind.bad)
 tiles.placeOnTile(Star_1, tiles.getTileLocation(52, 11))
+tiles.placeOnTile(star_2, tiles.getTileLocation(14, 56))
+tiles.placeOnTile(star_3, tiles.getTileLocation(48, 43))
+tiles.placeOnTile(star_4, tiles.getTileLocation(42, 46))
+tiles.placeOnTile(chest1, tiles.getTileLocation(47, 49))
+tiles.placeOnTile(chest2, tiles.getTileLocation(52, 45))
 tiles.placeOnTile(NIckle, tiles.getTileLocation(7, 2))
 tiles.placeOnTile(niki, tiles.getTileLocation(18, 6))
 tiles.placeOnTile(host, tiles.getTileLocation(3, 6))
