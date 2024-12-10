@@ -149,12 +149,35 @@ controller.right.onEvent(ControllerButtonEvent.Released, function () {
 controller.left.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.chest1, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    sss = sprites.create(img`
+        . . . . . . . b b . . . . . . . 
+        . . . . . . b d d b . . . . . . 
+        . . . . . b d 5 5 d b . . . . . 
+        . . . . b b 5 5 5 5 b b . . . . 
+        . . . . b 5 5 5 5 5 5 b . . . . 
+        b b b b b 5 5 5 5 1 1 d b b b b 
+        b 5 5 5 5 5 5 5 5 1 1 1 5 5 5 b 
+        b d d 5 5 5 5 5 5 1 1 1 5 d d b 
+        . b d d 5 5 5 5 5 5 5 5 d d b . 
+        . . b b 5 5 5 5 5 5 5 5 b b . . 
+        . . c b 5 5 5 5 5 5 5 5 b c . . 
+        . . c 5 5 5 5 d d 5 5 5 5 c . . 
+        . . c 5 5 d b b b b d 5 5 c . . 
+        . . c 5 d b c c c c b d 5 c . . 
+        . . c c c c . . . . c c c c . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.star_01)
+    pause(500)
+    tiles.placeOnTile(sss, tiles.getTileLocation(48, 43))
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.bad, function (sprite, otherSprite) {
     game.splash("You chose the wrong chest!")
-    pause(400)
+    pause(1000)
     sprite.sayText("Oh no!!!", 600, false)
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
-    pause(400)
+    pause(1000)
     game.gameOver(false)
 })
 controller.right.onEvent(ControllerButtonEvent.Pressed, function () {
@@ -220,7 +243,7 @@ controller.up.onEvent(ControllerButtonEvent.Released, function () {
     animation.stopAnimation(animation.AnimationTypes.MovementAnimation, NIckle)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.star_01, function (sprite, otherSprite) {
-    NIckle.sayText("Got a star!", 600, false)
+    NIckle.sayText("Got a star!", 600, true)
     info.changeScoreBy(1)
     sprites.destroy(otherSprite)
 })
@@ -283,9 +306,14 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
+    magohabla = true
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     game.gameOver(false)
 })
+let magohabla = false
+let sss: Sprite = null
 let niki: Sprite = null
 let NIckle: Sprite = null
 scene.setBackgroundColor(11)
@@ -344,6 +372,24 @@ niki = sprites.create(img`
     . . . f f f f f f f f f f . . . 
     . . . . . f f . . f f . . . . . 
     `, SpriteKind.niki)
+let mago = sprites.create(img`
+    . . . . f f f f f . . . . . . . 
+    . . . f e e e e e f . . . . . . 
+    . . f d d d d e e e f . . . . . 
+    . c d f d d f d e e f f . . . . 
+    . c d f d d f d e e d d f . . . 
+    c d e e d d d d e e b d c . . . 
+    c d d d d c d d e e b d c . f f 
+    c c c c c d d d e e f c . f e f 
+    . f d d d d d e e f f . . f e f 
+    . . f f f f f e e e e f . f e f 
+    . . . . f e e e e e e e f f e f 
+    . . . f e f f e f e e e e f f . 
+    . . . f e f f e f e e e e f . . 
+    . . . f d b f d b f f e f . . . 
+    . . . f d d c d d b b d f . . . 
+    . . . . f f f f f f f f f . . . 
+    `, SpriteKind.Player)
 let boss_labyrinth = sprites.create(img`
     ................................
     ................................
@@ -432,7 +478,7 @@ let star_3 = sprites.create(img`
     b b b b b b b b b b b b b b b b 
     . b b . . . . . . . . . . b b . 
     `, SpriteKind.chest1)
-let star_4 = sprites.create(img`
+let chest_3 = sprites.create(img`
     . . b b b b b b b b b b b b . . 
     . b e 4 4 4 4 4 4 4 4 4 4 e b . 
     b e 4 4 4 4 4 4 4 4 4 4 4 4 e b 
@@ -449,7 +495,7 @@ let star_4 = sprites.create(img`
     b c e e e e e e e e e e e e c b 
     b b b b b b b b b b b b b b b b 
     . b b . . . . . . . . . . b b . 
-    `, SpriteKind.chest2)
+    `, SpriteKind.bad)
 let chest1 = sprites.create(img`
     . . b b b b b b b b b b b b . . 
     . b e 4 4 4 4 4 4 4 4 4 4 e b . 
@@ -488,12 +534,13 @@ let chest2 = sprites.create(img`
     `, SpriteKind.bad)
 boss_labyrinth.follow(NIckle, 15)
 tiles.placeOnTile(Star_1, tiles.getTileLocation(52, 11))
+tiles.placeOnTile(mago, tiles.getTileLocation(53, 37))
 tiles.placeOnTile(star_2, tiles.getTileLocation(14, 56))
 tiles.placeOnTile(star_3, tiles.getTileLocation(48, 43))
-tiles.placeOnTile(star_4, tiles.getTileLocation(42, 46))
+tiles.placeOnTile(chest_3, tiles.getTileLocation(42, 46))
 tiles.placeOnTile(chest1, tiles.getTileLocation(47, 49))
 tiles.placeOnTile(chest2, tiles.getTileLocation(52, 45))
-tiles.placeOnTile(NIckle, tiles.getTileLocation(7, 2))
+tiles.placeOnTile(NIckle, tiles.getTileLocation(46, 32))
 tiles.placeOnTile(niki, tiles.getTileLocation(18, 6))
 tiles.placeOnTile(host, tiles.getTileLocation(3, 6))
 tiles.placeOnTile(boss_labyrinth, tiles.getTileLocation(52, 9))
@@ -502,3 +549,8 @@ host.sayText(intro(game.ask("Do you want to play?"), game.askForString("Whats yo
 info.setScore(0)
 controller.moveSprite(NIckle, 60, 60)
 scene.cameraFollowSprite(NIckle)
+game.onUpdate(function () {
+    if (magohabla) {
+        mago.sayText("Theres 1 star in this room. Choose out of the 4 chests wisely...")
+    }
+})
