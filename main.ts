@@ -255,6 +255,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Anuel, function (sprite, otherSp
     sprites.destroy(otherSprite)
     statusbar.value += -20
 })
+scene.onOverlapTile(SpriteKind.Player, assets.tile`tile2`, function (sprite, location) {
+    wizzardhabla = true
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.star_01, function (sprite, otherSprite) {
     NIckle.sayText("Got a star!", 600, true)
     info.changeScoreBy(1)
@@ -332,6 +335,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 let magohabla = false
 let kk: Sprite = null
+let wizzardhabla = false
 let sss: Sprite = null
 let spa = false
 let niki: Sprite = null
@@ -412,6 +416,24 @@ let mago = sprites.create(img`
     . . . f d b f d b f f e f . . . 
     . . . f d d c d d b b d f . . . 
     . . . . f f f f f f f f f . . . 
+    `, SpriteKind.Player)
+let wizzard = sprites.create(img`
+    . . . f f f f f f f . . . . . . 
+    . . f 8 8 8 8 8 8 8 f . . . . . 
+    . f 8 f f 8 8 8 8 8 8 f . . . . 
+    . . f f 8 8 8 8 8 8 8 f . . . . 
+    . . f 8 8 8 8 8 8 8 8 8 f . . . 
+    . f 8 8 1 1 1 1 d d 1 8 8 f . . 
+    . . f 1 d d d f d d f d f . . . 
+    . . f 1 1 d d d d d d 1 f . . . 
+    . . . f 1 1 1 1 1 1 1 f . . . . 
+    . . . f 8 1 1 1 1 1 1 f . . . . 
+    . . f d f 8 1 1 d 1 1 f f f f . 
+    . . f d d f 1 1 1 1 8 d d d f . 
+    . f f f f 8 8 8 8 1 8 f f f . . 
+    f 8 8 8 8 8 8 8 8 1 8 8 8 f . . 
+    f 8 8 8 8 8 8 8 8 8 8 8 8 f . . 
+    f f f f f f f f f f f f f . . . 
     `, SpriteKind.Player)
 let boss_labyrinth = sprites.create(img`
     ................................
@@ -557,8 +579,9 @@ let chest2 = sprites.create(img`
     `, SpriteKind.bad)
 boss_labyrinth.follow(NIckle, 15)
 tiles.placeOnTile(Star_1, tiles.getTileLocation(52, 11))
+tiles.placeOnTile(wizzard, tiles.getTileLocation(10, 20))
 tiles.placeOnTile(mago, tiles.getTileLocation(53, 37))
-tiles.placeOnTile(star_2, tiles.getTileLocation(14, 56))
+tiles.placeOnTile(star_2, tiles.getTileLocation(23, 50))
 tiles.placeOnTile(star_3, tiles.getTileLocation(48, 43))
 tiles.placeOnTile(chest_3, tiles.getTileLocation(42, 46))
 tiles.placeOnTile(chest1, tiles.getTileLocation(47, 49))
@@ -649,6 +672,9 @@ img`
 game.onUpdate(function () {
     if (magohabla) {
         mago.sayText("Theres 1 star in this room. Choose out of the 4 chests wisely...")
+    }
+    if (wizzardhabla) {
+        wizzard.sayText("There are 3 dungeons, three stars you must collect, follow the cracks in walls.")
     }
 })
 forever(function () {
