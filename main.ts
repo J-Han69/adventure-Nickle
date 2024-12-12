@@ -312,10 +312,12 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
-function spawner (enemy: Image) {
-    kk = sprites.create(enemy, SpriteKind.Anuel)
-    kk.follow(NIckle, 10)
-    tiles.placeOnRandomTile(kk, sprites.dungeon.doorClosedNorth)
+function spawner (enemy: Image, num: number) {
+    for (let index = 0; index < num; index++) {
+        kk = sprites.create(enemy, SpriteKind.Anuel)
+        kk.follow(NIckle, 10)
+        tiles.placeOnRandomTile(kk, sprites.dungeon.doorClosedNorth)
+    }
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
     magohabla = true
@@ -323,7 +325,6 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, func
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     statusbar.value += -4
 })
-let spa = false
 let magohabla = false
 let kk: Sprite = null
 let sss: Sprite = null
@@ -571,32 +572,22 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
-    if (info.score() == 2) {
-        spa = true
-    } else {
-        spa = false
-    }
-})
-game.onUpdateInterval(5000, function () {
-    while (spa) {
-        spawner(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . 4 4 4 . . . . . . . . 
-            . . . . 4 4 5 4 4 4 . . . . . . 
-            . . 4 3 3 3 2 2 1 1 4 . . . . . 
-            . . 3 3 3 3 2 2 1 1 4 . . . . . 
-            . 4 3 3 3 2 2 2 2 5 4 4 . . . . 
-            . 4 4 3 2 2 4 4 4 4 4 4 . . . . 
-            . 4 2 3 2 2 4 4 4 4 4 4 . . . . 
-            . . 4 2 3 2 4 4 4 4 4 . . . . . 
-            . . . 4 2 2 2 2 2 2 . . . . . . 
-            . . . . 4 2 2 2 4 4 . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-        pause(2000)
-    }
+    spawner(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . 4 4 4 . . . . . . . . 
+        . . . . 4 4 5 4 4 4 . . . . . . 
+        . . 4 3 3 3 2 2 1 1 4 . . . . . 
+        . . 3 3 3 3 2 2 1 1 4 . . . . . 
+        . 4 3 3 3 2 2 2 2 5 4 4 . . . . 
+        . 4 4 3 2 2 4 4 4 4 4 4 . . . . 
+        . 4 2 3 2 2 4 4 4 4 4 4 . . . . 
+        . . 4 2 3 2 4 4 4 4 4 . . . . . 
+        . . . 4 2 2 2 2 2 2 . . . . . . 
+        . . . . 4 2 2 2 4 4 . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, 10)
 })
