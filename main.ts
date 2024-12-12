@@ -172,6 +172,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.chest1, function (sprite, otherS
     pause(500)
     tiles.placeOnTile(sss, tiles.getTileLocation(48, 43))
 })
+statusbars.onZero(StatusBarKind.Health, function (status) {
+    game.gameOver(false)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.bad, function (sprite, otherSprite) {
     game.splash("You chose the wrong chest!")
     pause(1000)
@@ -310,11 +313,12 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, func
     magohabla = true
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    game.gameOver(false)
+    statusbar.value += -4
 })
 let magohabla = false
 let sss: Sprite = null
 let niki: Sprite = null
+let statusbar: StatusBarSprite = null
 let NIckle: Sprite = null
 scene.setBackgroundColor(11)
 tiles.setCurrentTilemap(tilemap`level0`)
@@ -336,6 +340,8 @@ NIckle = sprites.create(img`
     . . . f f f f f f . . . . 
     . . . f f . . f f . . . . 
     `, SpriteKind.Player)
+statusbar = statusbars.create(20, 3, StatusBarKind.Health)
+statusbar.attachToSprite(NIckle)
 let host = sprites.create(img`
     . . . . . . . f f . . . . . . . 
     . . . . . f f 4 4 f f . . . . . 
