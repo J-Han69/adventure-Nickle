@@ -312,12 +312,10 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
-function spawner (enemy: Image, num: number) {
-    for (let index = 0; index < num; index++) {
-        kk = sprites.create(enemy, SpriteKind.Anuel)
-        kk.follow(NIckle, 10)
-        tiles.placeOnRandomTile(kk, sprites.dungeon.doorClosedNorth)
-    }
+function spawner (enemy: Image) {
+    kk = sprites.create(enemy, SpriteKind.Anuel)
+    kk.follow(NIckle, 10)
+    tiles.placeOnRandomTile(kk, sprites.dungeon.doorClosedNorth)
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
     magohabla = true
@@ -566,28 +564,34 @@ host.sayText(intro(game.ask("Do you want to play?"), game.askForString("Whats yo
 info.setScore(0)
 controller.moveSprite(NIckle, 60, 60)
 scene.cameraFollowSprite(NIckle)
+pause(10000)
+let spa = true
 game.onUpdate(function () {
     if (magohabla) {
         mago.sayText("Theres 1 star in this room. Choose out of the 4 chests wisely...")
     }
 })
-game.onUpdate(function () {
-    spawner(img`
-        . . . . . . . . . . . . . . . . 
-        . . . . . 4 4 4 . . . . . . . . 
-        . . . . 4 4 5 4 4 4 . . . . . . 
-        . . 4 3 3 3 2 2 1 1 4 . . . . . 
-        . . 3 3 3 3 2 2 1 1 4 . . . . . 
-        . 4 3 3 3 2 2 2 2 5 4 4 . . . . 
-        . 4 4 3 2 2 4 4 4 4 4 4 . . . . 
-        . 4 2 3 2 2 4 4 4 4 4 4 . . . . 
-        . . 4 2 3 2 4 4 4 4 4 . . . . . 
-        . . . 4 2 2 2 2 2 2 . . . . . . 
-        . . . . 4 2 2 2 4 4 . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `, 10)
+game.onUpdateInterval(10000, function () {
+    if (spa) {
+        for (let index = 0; index < 4; index++) {
+            spawner(img`
+                . . . . . . . . . . . 6 6 6 6 6 
+                . . . . . . . . . 6 6 7 7 7 7 8 
+                . . . . . . 8 8 8 7 7 8 8 6 8 8 
+                . . e e e e c 6 6 8 8 . 8 7 8 . 
+                . e 2 5 4 2 e c 8 . . . 6 7 8 . 
+                e 2 4 2 2 2 2 2 c . . . 6 7 8 . 
+                e 2 2 2 2 2 2 2 c . . . 8 6 8 . 
+                e 2 e e 2 2 2 2 e e e e c 6 8 . 
+                c 2 e e 2 2 2 2 e 2 5 4 2 c 8 . 
+                . c 2 e e e 2 e 2 4 2 2 2 2 c . 
+                . . c 2 2 2 e e 2 2 2 2 2 2 2 e 
+                . . . e c c e c 2 2 2 2 2 2 2 e 
+                . . . . . . . c 2 e e 2 2 e 2 c 
+                . . . . . . . c e e e e e e 2 c 
+                . . . . . . . . c e 2 2 2 2 c . 
+                . . . . . . . . . c c c c c . . 
+                `)
+        }
+    }
 })
