@@ -253,7 +253,7 @@ controller.up.onEvent(ControllerButtonEvent.Released, function () {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Anuel, function (sprite, otherSprite) {
     sprites.destroy(otherSprite)
-    statusbar.value += -4
+    statusbar.value += -20
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.star_01, function (sprite, otherSprite) {
     NIckle.sayText("Got a star!", 600, true)
@@ -650,6 +650,9 @@ game.onUpdate(function () {
     if (magohabla) {
         mago.sayText("Theres 1 star in this room. Choose out of the 4 chests wisely...")
     }
+})
+forever(function () {
+    music.play(music.stringPlayable("C E F E C A C5 F ", 120), music.PlaybackMode.UntilDone)
 })
 game.onUpdateInterval(10000, function () {
     if (spa) {
