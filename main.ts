@@ -4,6 +4,8 @@ namespace SpriteKind {
     export const chest1 = SpriteKind.create()
     export const chest2 = SpriteKind.create()
     export const bad = SpriteKind.create()
+    export const spawn = SpriteKind.create()
+    export const Anuel = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -132,6 +134,9 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     200,
     true
     )
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`tile3`, function (sprite, location) {
+    spa = true
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.niki, function (sprite, otherSprite) {
     if (info.score() >= 3) {
@@ -309,6 +314,11 @@ controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
     true
     )
 })
+function spawner (enemy: Image) {
+    kk = sprites.create(enemy, SpriteKind.Anuel)
+    kk.follow(NIckle, 10)
+    tiles.placeOnRandomTile(kk, sprites.dungeon.doorClosedNorth)
+}
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
     magohabla = true
 })
@@ -316,7 +326,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     statusbar.value += -4
 })
 let magohabla = false
+let kk: Sprite = null
 let sss: Sprite = null
+let spa = false
 let niki: Sprite = null
 let statusbar: StatusBarSprite = null
 let NIckle: Sprite = null
@@ -558,5 +570,46 @@ scene.cameraFollowSprite(NIckle)
 game.onUpdate(function () {
     if (magohabla) {
         mago.sayText("Theres 1 star in this room. Choose out of the 4 chests wisely...")
+    }
+})
+game.onUpdate(function () {
+    while (spa) {
+        spawner(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . 4 4 4 . . . . . . . . 
+            . . . . 4 4 5 4 4 4 . . . . . . 
+            . . 4 3 3 3 2 2 1 1 4 . . . . . 
+            . . 3 3 3 3 2 2 1 1 4 . . . . . 
+            . 4 3 3 3 2 2 2 2 5 4 4 . . . . 
+            . 4 4 3 2 2 4 4 4 4 4 4 . . . . 
+            . 4 2 3 2 2 4 4 4 4 4 4 . . . . 
+            . . 4 2 3 2 4 4 4 4 4 . . . . . 
+            . . . 4 2 2 2 2 2 2 . . . . . . 
+            . . . . 4 2 2 2 4 4 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+        spawner(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . 4 4 4 . . . . . . . . 
+            . . . . 4 4 5 4 4 4 . . . . . . 
+            . . 4 3 3 3 2 2 1 1 4 . . . . . 
+            . . 3 3 3 3 2 2 1 1 4 . . . . . 
+            . 4 3 3 3 2 2 2 2 5 4 4 . . . . 
+            . 4 4 3 2 2 4 4 4 4 4 4 . . . . 
+            . 4 2 3 2 2 4 4 4 4 4 4 . . . . 
+            . . 4 2 3 2 4 4 4 4 4 . . . . . 
+            . . . 4 2 2 2 2 2 2 . . . . . . 
+            . . . . 4 2 2 2 4 4 . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+        pause(10000)
     }
 })
