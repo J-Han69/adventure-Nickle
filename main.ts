@@ -134,10 +134,10 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     )
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.niki, function (sprite, otherSprite) {
-    if (info.score() >= 4) {
+    if (info.score() >= 3) {
         niki.sayText("Thank you for saving me!", 400, false)
         game.gameOver(true)
-    } else if (info.score() < 4) {
+    } else if (info.score() < 3) {
         niki.sayText("To liberate me, you need to collect all 4 stars. ", 400, false)
     } else {
     	
