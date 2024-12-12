@@ -144,7 +144,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.niki, function (sprite, otherSpr
         niki.sayText("Thank you for saving me!", 400, false)
         game.gameOver(true)
     } else if (info.score() < 3) {
-        niki.sayText("To liberate me, you need to collect all 4 stars. ", 400, false)
+        niki.sayText("To liberate me, you need to collect all 3 stars. ", 400, false)
     } else {
     	
     }
@@ -566,7 +566,7 @@ tiles.placeOnTile(chest2, tiles.getTileLocation(52, 45))
 tiles.placeOnTile(NIckle, tiles.getTileLocation(7, 2))
 tiles.placeOnTile(niki, tiles.getTileLocation(18, 6))
 tiles.placeOnTile(host, tiles.getTileLocation(3, 6))
-tiles.placeOnTile(boss_labyrinth, tiles.getTileLocation(52, 9))
+tiles.placeOnTile(boss_labyrinth, tiles.getTileLocation(53, 8))
 pause(2000)
 host.sayText(intro(game.ask("Do you want to play?"), game.askForString("Whats your name?")))
 info.setScore(0)
