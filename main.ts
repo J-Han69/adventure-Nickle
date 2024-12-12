@@ -6,6 +6,7 @@ namespace SpriteKind {
     export const bad = SpriteKind.create()
     export const spawn = SpriteKind.create()
     export const Anuel = SpriteKind.create()
+    export const wall_condition = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     animation.runImageAnimation(
@@ -134,9 +135,6 @@ controller.left.onEvent(ControllerButtonEvent.Pressed, function () {
     200,
     true
     )
-})
-scene.onOverlapTile(SpriteKind.Player, assets.tile`tile3`, function (sprite, location) {
-    spa = true
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.niki, function (sprite, otherSprite) {
     if (info.score() >= 3) {
@@ -325,10 +323,10 @@ scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, func
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     statusbar.value += -4
 })
+let spa = false
 let magohabla = false
 let kk: Sprite = null
 let sss: Sprite = null
-let spa = false
 let niki: Sprite = null
 let statusbar: StatusBarSprite = null
 let NIckle: Sprite = null
@@ -573,6 +571,13 @@ game.onUpdate(function () {
     }
 })
 game.onUpdate(function () {
+    if (info.score() == 2) {
+        spa = true
+    } else {
+        spa = false
+    }
+})
+game.onUpdateInterval(5000, function () {
     while (spa) {
         spawner(img`
             . . . . . . . . . . . . . . . . 
@@ -592,24 +597,6 @@ game.onUpdate(function () {
             . . . . . . . . . . . . . . . . 
             . . . . . . . . . . . . . . . . 
             `)
-        spawner(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . 4 4 4 . . . . . . . . 
-            . . . . 4 4 5 4 4 4 . . . . . . 
-            . . 4 3 3 3 2 2 1 1 4 . . . . . 
-            . . 3 3 3 3 2 2 1 1 4 . . . . . 
-            . 4 3 3 3 2 2 2 2 5 4 4 . . . . 
-            . 4 4 3 2 2 4 4 4 4 4 4 . . . . 
-            . 4 2 3 2 2 4 4 4 4 4 4 . . . . 
-            . . 4 2 3 2 4 4 4 4 4 . . . . . 
-            . . . 4 2 2 2 2 2 2 . . . . . . 
-            . . . . 4 2 2 2 4 4 . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-        pause(10000)
+        pause(2000)
     }
 })
